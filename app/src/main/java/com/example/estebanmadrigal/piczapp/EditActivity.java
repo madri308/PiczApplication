@@ -30,7 +30,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        bitmap = this.getIntent().getParcelableExtra("Bitmap");
+        bitmap = FeedActivity.photo;
 
         imageview = findViewById(R.id.imageView);
         imageview.setImageBitmap(bitmap);

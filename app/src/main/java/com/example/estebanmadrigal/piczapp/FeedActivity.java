@@ -20,16 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
 public class FeedActivity extends AppCompatActivity {
+    static Bitmap photo;
     private static final int CAMERA_REQUEST = 1888;
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
     LinearLayout posts;
-    Uri selectedImageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,82 +60,43 @@ public class FeedActivity extends AppCompatActivity {
         }
 
     }
-
-
-    public String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
-    }
     public void openCam(View view) {
 
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-        } else {
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            Intent data = getIntent();
-            setResult(RESULT_OK, data);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, 1);
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new
-                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-            }
 
-        }
-    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            photo = (Bitmap) extras.get("data");
             Intent intent = new Intent(this, EditActivity.class);
-            intent.putExtra("Bitmap",image);
             startActivity(intent);
-        }if(requestCode == 5000 && resultCode == RESULT_OK){
-            super.onActivityResult(requestCode, resultCode, data);
-            try {
-                if (requestCode == 500) {
-                    // Get the url from data
-                    selectedImageUri = data.getParcelableExtra("file");
-                } else {
-                    final Uri uri_data = data.getData();
-                    // Get the path from the Uri
-                    final String path = getPathFromURI(uri_data);
-                    if (path != null) {
-                        File f = new File(path);
-                        selectedImageUri = Uri.fromFile(f);
-                    }
-                    // Set the image in
-                    ImageView m = findViewById(R.id.imgView);
-                    m.setImageURI(selectedImageUri);
-                    }
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            } catch (Exception e) {
-                Log.e("FileSelectorActivity", "File select error", e);
+            Uri uri = data.getData();
+
+            try {
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                Intent intent = new Intent(this, EditActivity.class);
+                startActivity(intent);
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        }
+    }
 
     public void openGallery(View view){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Intent intent = new Intent();
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),5000);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 2);
     }
 
 }
