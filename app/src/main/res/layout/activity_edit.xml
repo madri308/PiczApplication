@@ -52,13 +52,17 @@
         android:id="@+id/blur"
         android:layout_width="80dp"
         android:layout_height="65dp"
+        android:layout_marginEnd="3dp"
+        android:autoText="true"
         android:background="@drawable/wood"
+        android:onClick="blur"
         android:text="blur"
         android:textAllCaps="false"
         android:textColor="@android:color/background_light"
         android:textSize="30sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/UnsharpMasking"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -66,23 +70,27 @@
         android:layout_width="80dp"
         android:layout_height="65dp"
         android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:autoText="true"
         android:background="@drawable/wood"
+        android:onClick="onSharpMasking"
         android:text="Unsharp Masking"
         android:textColor="@android:color/background_light"
         android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BlackWhite"
         app:layout_constraintStart_toEndOf="@+id/blur" />
 
     <Button
         android:id="@+id/BlackWhite"
         android:layout_width="80dp"
         android:layout_height="65dp"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="2dp"
         android:layout_marginEnd="3dp"
         android:autoText="true"
         android:background="@drawable/wood"
+        android:onClick="blackAndWhite"
         android:text="Black and White"
         android:textColor="@android:color/background_light"
         android:textSize="16sp"
@@ -95,29 +103,33 @@
         android:id="@+id/invented"
         android:layout_width="80dp"
         android:layout_height="65dp"
+        android:layout_marginStart="2dp"
         android:layout_marginEnd="3dp"
         android:autoText="true"
         android:background="@drawable/wood"
+        android:onClick="invented"
         android:text="Invented"
         android:textColor="@android:color/background_light"
         android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/original" />
+        app:layout_constraintEnd_toStartOf="@+id/original"
+        app:layout_constraintStart_toEndOf="@+id/BlackWhite" />
 
     <Button
         android:id="@+id/original"
         android:layout_width="80dp"
         android:layout_height="65dp"
-        android:layout_marginStart="334dp"
+        android:layout_marginStart="2dp"
+        android:autoText="true"
         android:background="@drawable/wood"
+        android:onClick="original"
         android:text="Original"
         android:textColor="@android:color/background_light"
         android:textSize="17sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/invented" />
 
 </android.support.constraint.ConstraintLayout>

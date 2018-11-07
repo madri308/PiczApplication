@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -85,6 +86,49 @@ public class EditActivity extends AppCompatActivity {
         Post post = new Post(bitmap,comment);
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
+    }
+    public void blackAndWhite(View view){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        // create output bitmap
+        Bitmap bmOut = Bitmap.createBitmap(width, height, bitmap.getConfig());
+        // color information
+        int A, R, G, B;
+        int pixel;
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                // get pixel color
+                pixel = bitmap.getPixel(x, y);
+                A = Color.alpha(pixel);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                int gray = (int) (0.2989 * R + 0.5870 * G + 0.1140 * B);
+                // use 128 as threshold, above -> white, below -> black
+                if (gray > 128) {
+                    gray = 255;
+                }
+                else{
+                    gray = 0;
+                }
+                // set new pixel color to output bitmap
+                bmOut.setPixel(x, y, Color.argb(A, gray, gray, gray));
+            }
+        }
+        imageview.setImageBitmap(bmOut);
+        bitmap=bmOut;
+    }
+    public void blur(View view){
+
+    }
+    public void onSharpMasking(View view){
+
+    }
+    public void original(View view){
+        bitmap = FeedActivity.photo;
+    }
+    public void invented(View view){
+
     }
 }
 
