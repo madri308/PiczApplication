@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class EditActivity extends AppCompatActivity {
 
     Bitmap bitmap;
     String comment = "";
-
+    EditText textview;
     ImageView imageview;
     private static final int PERMISSION_REQUEST_CODE = 200;
     @Override
@@ -32,9 +33,9 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         bitmap = FeedActivity.photo;
-
         imageview = findViewById(R.id.imageView);
         imageview.setImageBitmap(bitmap);
+        textview = findViewById(R.id.comment);
     }
     private boolean checkPermission() {
 
@@ -83,7 +84,11 @@ public class EditActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void up(View view){
+        comment = textview.getText().toString();
         Post post = new Post(bitmap,comment);
+
+
+
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
@@ -117,6 +122,7 @@ public class EditActivity extends AppCompatActivity {
         }
         imageview.setImageBitmap(bmOut);
         bitmap=bmOut;
+        imageview.setImageBitmap(bitmap);
     }
     public void blur(View view){
 
@@ -126,6 +132,7 @@ public class EditActivity extends AppCompatActivity {
     }
     public void original(View view){
         bitmap = FeedActivity.photo;
+        imageview.setImageBitmap(bitmap);
     }
     public void invented(View view){
 
