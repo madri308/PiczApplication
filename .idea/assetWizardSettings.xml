@@ -120,8 +120,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_gallery" />
-                            <entry key="sourceFile" value="C:\Users\Esteban Madrigal\Desktop\PiczApplication\app\src\main\res\icons\gallery.svg" />
+                            <entry key="outputName" value="ic_picture" />
+                            <entry key="sourceFile" value="C:\Users\Esteban Madrigal\Desktop\icons\picture.svg" />
                           </map>
                         </option>
                       </PersistentState>

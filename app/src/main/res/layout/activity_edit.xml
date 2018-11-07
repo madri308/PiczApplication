@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity"
+    tools:layout_editor_absoluteY="25dp">
+
+    <Button
+        android:id="@+id/borrar"
+        android:layout_width="99dp"
+        android:layout_height="90dp"
+        android:background="@drawable/borrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/desc"
+        android:layout_width="78dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="96dp"
+        android:background="@drawable/desc"
+        android:onClick="downloadImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/up"
+        android:layout_width="77dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/upl"
+        android:onClick="up"
+        app:layout_constraintEnd_toStartOf="@+id/desc"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="294dp"
+        android:layout_height="426dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497" />
+
+    <Button
+        android:id="@+id/blur"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:background="@drawable/wood"
+        android:text="blur"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/UnsharpMasking"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="3dp"
+        android:autoText="true"
+        android:background="@drawable/wood"
+        android:text="Unsharp Masking"
+        android:textColor="@android:color/background_light"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/blur" />
+
+    <Button
+        android:id="@+id/BlackWhite"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:autoText="true"
+        android:background="@drawable/wood"
+        android:text="Black and White"
+        android:textColor="@android:color/background_light"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/invented"
+        app:layout_constraintStart_toEndOf="@+id/UnsharpMasking" />
+
+    <Button
+        android:id="@+id/invented"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="3dp"
+        android:autoText="true"
+        android:background="@drawable/wood"
+        android:text="Invented"
+        android:textColor="@android:color/background_light"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/original" />
+
+    <Button
+        android:id="@+id/original"
+        android:layout_width="80dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="334dp"
+        android:background="@drawable/wood"
+        android:text="Original"
+        android:textColor="@android:color/background_light"
+        android:textSize="17sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
