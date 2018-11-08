@@ -18,6 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -27,6 +31,7 @@ public class EditActivity extends AppCompatActivity {
     String comment = "";
     EditText textview;
     ImageView imageview;
+    Integer id = 0;
     private static final int PERMISSION_REQUEST_CODE = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,49 +90,31 @@ public class EditActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void up(View view){
         comment = textview.getText().toString();
-        Post post = new Post(bitmap,comment);
+        Integer postId = id;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate localDate = LocalDate.now();
+        String date = (dtf.format(localDate));
+        Post post = new Post(postId,bitmap,comment,date);
 
-
+        DataBaseInitializer.insert(PiczDataBase.getPiczDataBase(this),post);
 
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
-    public void blackAndWhite(View view){
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        // create output bitmap
-        Bitmap bmOut = Bitmap.createBitmap(width, height, bitmap.getConfig());
-        // color information
-        int A, R, G, B;
-        int pixel;
-        for (int x = 0; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = bitmap.getPixel(x, y);
-                A = Color.alpha(pixel);
-                R = Color.red(pixel);
-                G = Color.green(pixel);
-                B = Color.blue(pixel);
-                int gray = (int) (0.2989 * R + 0.5870 * G + 0.1140 * B);
-                // use 128 as threshold, above -> white, below -> black
-                if (gray > 128) {
-                    gray = 255;
-                }
-                else{
-                    gray = 0;
-                }
-                // set new pixel color to output bitmap
-                bmOut.setPixel(x, y, Color.argb(A, gray, gray, gray));
-            }
-        }
-        imageview.setImageBitmap(bmOut);
-        bitmap=bmOut;
+    public void blackAndWhite(View view) {
+        BlackAndWhiteFilter blackAndWhiteFilter = new BlackAndWhiteFilter();
+        bitmap = blackAndWhiteFilter.applyFilter(bitmap);
         imageview.setImageBitmap(bitmap);
     }
-    public void blur(View view){
 
+    public void blur (View view){
+        BlurFilter blurFilter = new BlurFilter();
+        bitmap = blurFilter.applyFilter(bitmap);
+        imageview.setImageBitmap(bitmap);
     }
+
     public void onSharpMasking(View view){
+
 
     }
     public void original(View view){
