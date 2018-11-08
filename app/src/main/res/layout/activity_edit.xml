@@ -8,19 +8,9 @@
     tools:layout_editor_absoluteY="25dp">
 
     <Button
-        android:id="@+id/borrar"
-        android:layout_width="99dp"
-        android:layout_height="90dp"
-        android:background="@drawable/borrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/desc"
-        android:layout_width="78dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="96dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/desc"
         android:onClick="downloadImage"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,9 +18,8 @@
 
     <Button
         android:id="@+id/up"
-        android:layout_width="77dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="7dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@drawable/upl"
         android:onClick="up"
         app:layout_constraintEnd_toStartOf="@+id/desc"
@@ -40,16 +29,20 @@
         android:id="@+id/imageView"
         android:layout_width="294dp"
         android:layout_height="404dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="17dp"
         android:adjustViewBounds="true"
+        app:layout_constraintBottom_toTopOf="@+id/comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/borrar" />
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <Button
         android:id="@+id/blur"
         android:layout_width="80dp"
         android:layout_height="65dp"
+        android:layout_marginStart="2dp"
         android:layout_marginEnd="3dp"
         android:autoText="true"
         android:background="@drawable/wood"
@@ -119,6 +112,7 @@
         android:layout_width="80dp"
         android:layout_height="65dp"
         android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:autoText="true"
         android:background="@drawable/wood"
         android:onClick="original"
@@ -132,12 +126,11 @@
 
     <EditText
         android:id="@+id/comment"
-        android:layout_width="wrap_content"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />

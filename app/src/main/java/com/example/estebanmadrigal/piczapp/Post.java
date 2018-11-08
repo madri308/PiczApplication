@@ -17,13 +17,13 @@ public class Post  {
     @PrimaryKey(autoGenerate = true)
     private Integer postId;
 
-    //@ColumnInfo(name = "image")
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     private byte[] imagen;
 
-    //@ColumnInfo(name = "comment")
+    @ColumnInfo(name = "comment")
     private String comment;
 
-    //@ColumnInfo(name = "date")
+    @ColumnInfo(name = "date")
     private String date;
 
 
@@ -40,7 +40,7 @@ public class Post  {
 
     public byte[] toByte(Bitmap imagen){
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        imagen.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        imagen.compress(Bitmap.CompressFormat.JPEG,50,bos);
         return bos.toByteArray();
     }
     public Bitmap toBitmap(byte[] bytes){

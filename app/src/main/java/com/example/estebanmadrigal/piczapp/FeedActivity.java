@@ -1,8 +1,12 @@
 package com.example.estebanmadrigal.piczapp;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -12,11 +16,14 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 public class FeedActivity extends AppCompatActivity {
@@ -57,25 +63,39 @@ public class FeedActivity extends AppCompatActivity {
         //set.applyTo(post);
 
         if(!(DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this)) == null)){
+            int m = 0;
             for(Post post:DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this))){
 
-                ConstraintLayout newPost = new ConstraintLayout(this);
-                ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-                newPost.setLayoutParams(p);
-
-                ImageView image = new ImageView(this);
-                //image.setImageBitmap(Bitmap.createScaledBitmap(post.toBitmap(post.getImagen()),900, 900, true));
-                image.setImageBitmap(post.toBitmap(post.getImagen()));
-                image.setId(View.generateViewId());
-                newPost.addView(image);
+                LinearLayout sort = new LinearLayout(this);
+                sort.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                sort.setOrientation(LinearLayout.VERTICAL);
+                sort.setGravity(Gravity.CENTER);
 
                 TextView date = new TextView(this);
-                date.setId(View.generateViewId());
+                date.setGravity(Gravity.CENTER);
                 date.setText(post.getDate());
-                date.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-                newPost.addView(date);
+                date.setTextColor(Color.rgb(255,255,255));
+                date.setBackgroundColor(Color.rgb(181,97,41));
+                sort.addView(date,0);
 
-                posts.addView(newPost);
+                //ImageView image = new ImageView(this);
+                //image.setImageBitmap(post.toBitmap(post.getImagen()));
+               // sort.addView(image,1);
+                Drawable l = new BitmapDrawable(getResources(), post.toBitmap(post.getImagen()));
+                Button thisPost = new Button(this);
+                thisPost.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                thisPost.setBackground(l);
+                sort.addView(thisPost,1);
+
+                TextView comment = new TextView(this);
+                comment.setText(post.getComment());
+                sort.addView(comment,2);
+
+
+                posts.addView(sort,0);
+                m++;
+
+
             }
         }else{
             Toast.makeText(this,"No hay contenido que mostrar",Toast.LENGTH_LONG);
@@ -93,9 +113,12 @@ public class FeedActivity extends AppCompatActivity {
             startActivityForResult(camera, CAMERA_REQUEST_CODE);
         }
     }
+    public void goToPost(View view){
+        Toast.makeText(this,"No hay contenido que mostrar",Toast.LENGTH_LONG);
+
+    }
     @Nullable
     private Uri getOutputUri() {
-// If sd card is available
         if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
             String path = Environment.getExternalStorageDirectory().getAbsolutePath();
             fileName = "image" + System.currentTimeMillis() + ".jpg";
@@ -114,7 +137,7 @@ public class FeedActivity extends AppCompatActivity {
                     return null;
                 }
             }
-            return Uri.fromFile(imageFile);
+            return FileProvider.getUriForFile(this, "com.example.estebanmadrigal.provider", imageFile );
         }else{ // If sd card is not available
             return null;
         }

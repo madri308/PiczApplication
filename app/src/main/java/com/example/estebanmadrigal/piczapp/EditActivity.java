@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -31,7 +30,6 @@ public class EditActivity extends AppCompatActivity {
     String comment = "";
     EditText textview;
     ImageView imageview;
-    Integer id = 0;
     private static final int PERMISSION_REQUEST_CODE = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +88,10 @@ public class EditActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void up(View view){
         comment = textview.getText().toString();
-        Integer postId = id;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate localDate = LocalDate.now();
         String date = (dtf.format(localDate));
+        Integer postId = bitmap.getGenerationId();
         Post post = new Post(postId,bitmap,comment,date);
 
         DataBaseInitializer.insert(PiczDataBase.getPiczDataBase(this),post);
