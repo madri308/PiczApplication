@@ -49,19 +49,6 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
         posts = findViewById(R.id.posts);
 
-/*
-
-
-            TextView comment = new TextView(this);
-            comment.setId(View.generateViewId());
-            comment.setText(content.getComment());
-            comment.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-            post.addView(comment);
-            */
-        //set.connect(comment.getId(), ConstraintSet.START, date.getId(), ConstraintSet.END);
-        //set.connect(image.getId(), ConstraintSet.BOTTOM, comment.getId(), ConstraintSet.TOP);
-        //set.applyTo(post);
-
         if(!(DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this)) == null)){
             int i = 0;
             for(Post post:DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this))) {
@@ -76,10 +63,6 @@ public class FeedActivity extends AppCompatActivity {
                 date.setTextColor(Color.rgb(255,255,255));
                 date.setBackgroundColor(Color.rgb(181,97,41));
                 sort.addView(date,0);
-
-                //ImageView image = new ImageView(this);
-                //image.setImageBitmap(post.toBitmap(post.getImagen()));
-                // sort.addView(image,1);
                 Drawable l = new BitmapDrawable(getResources(), post.toBitmap(post.getImagen()));
                 Button thisPost = new Button(this);
                 thisPost.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -89,8 +72,6 @@ public class FeedActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-
-                        // Intent code for open new activity through intent.
 
                         Intent intent = new Intent(getApplicationContext(), ThisPostActivity.class);
                         intent.putExtra("index", finalI);
@@ -150,7 +131,7 @@ public class FeedActivity extends AppCompatActivity {
                 }
             }
             return FileProvider.getUriForFile(this, "com.example.estebanmadrigal.provider", imageFile );
-        }else{ // If sd card is not available
+        }else{
             return null;
         }
     }
@@ -172,7 +153,6 @@ public class FeedActivity extends AppCompatActivity {
 
             try {
                 photo = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
                 Intent intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
 

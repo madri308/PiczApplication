@@ -1,13 +1,11 @@
 package com.example.estebanmadrigal.piczapp;
 
-import android.app.Application;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Parcel;
-import android.os.Parcelable;
+
 
 
 import java.io.ByteArrayOutputStream;

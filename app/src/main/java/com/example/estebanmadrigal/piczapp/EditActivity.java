@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -19,11 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
-import java.util.Date;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -92,7 +86,6 @@ public class EditActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void up(View view){
         comment = textview.getText().toString();
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate localDate = LocalDate.now();
         String date = (dtf.format(localDate));
@@ -104,28 +97,62 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
-    public void blackAndWhite(View view) {
-        BlackAndWhiteFilter blackAndWhiteFilter = new BlackAndWhiteFilter();
-        bitmap = blackAndWhiteFilter.applyFilter(bitmap);
-        imageview.setImageBitmap(bitmap);
+
+    public void blackAndWhite(View view){
+        BlackAndWhite currentBitMap = new BlackAndWhite();
+        Bitmap bmout = currentBitMap.filter(bitmap);
+        bitmap = bmout;
+        imageview.setImageBitmap(bmout);
     }
 
-    public void blur (View view){
-        BlurFilter blurFilter = new BlurFilter();
-        bitmap = blurFilter.applyFilter(bitmap);
+    public void blur(View view){
+        //GaussianBlur currentBitMap= new GaussianBlur();
+        //float[][] result = currentBitMap.generateKernel((float)0.76);
+        float[][] GaussianBlurConfig = new float[][] {
+                { 1, 2, 1 },
+                { 2, 4, 2 },
+                { 1, 2, 1 }
+        };
+
+        MatrixConvolution convMatrix = new MatrixConvolution(3);
+        convMatrix.applyConfig(GaussianBlurConfig);
+        convMatrix.Factor = 16;
+        convMatrix.Offset = 0;
+        bitmap=convMatrix.computeConvolution(bitmap,convMatrix);
         imageview.setImageBitmap(bitmap);
     }
 
     public void onSharpMasking(View view){
-
-
+        //UnSharpMaskFilter currentBitMap = new UnSharpMaskFilter();
+        //float[][] result= currentBitMap.generateKernel((float)0.51);
+        float[][] SharpConfig = new float[][] {
+                { 0 , -1 , 0  },
+                { -1, 5, -1 },
+                { 0 , -1, 0  }
+        };
+        MatrixConvolution convMatrix = new MatrixConvolution(5);
+        convMatrix.applyConfig(SharpConfig);
+        bitmap=convMatrix.computeConvolution(bitmap,convMatrix);
+        imageview.setImageBitmap(bitmap);
     }
+
     public void original(View view){
         bitmap = FeedActivity.photo;
         imageview.setImageBitmap(bitmap);
     }
-    public void invented(View view){
 
+    public void invented(View view){
+        BlackAndWhite currentBitMap = new BlackAndWhite();
+        Bitmap bmout = currentBitMap.filter(bitmap);
+        bitmap = bmout;
+        float[][] gradient = {
+                { 1, 2, 1},
+                { 0, 0, 0},
+                { -1, -2, -1} };
+        MatrixConvolution convMatrix= new MatrixConvolution(3);
+        convMatrix.applyConfig(gradient);
+        bitmap=convMatrix.computeConvolution(bitmap,convMatrix);
+        imageview.setImageBitmap(bitmap);
     }
 }
 
