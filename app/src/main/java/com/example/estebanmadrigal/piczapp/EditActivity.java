@@ -19,7 +19,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.Date;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -88,6 +92,7 @@ public class EditActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void up(View view){
         comment = textview.getText().toString();
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate localDate = LocalDate.now();
         String date = (dtf.format(localDate));
