@@ -63,9 +63,8 @@ public class FeedActivity extends AppCompatActivity {
         //set.applyTo(post);
 
         if(!(DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this)) == null)){
-            int m = 0;
-            for(Post post:DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this))){
-
+            int i = 0;
+            for(Post post:DataBaseInitializer.getAllPost(PiczDataBase.getPiczDataBase(this))) {
                 LinearLayout sort = new LinearLayout(this);
                 sort.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 sort.setOrientation(LinearLayout.VERTICAL);
@@ -80,11 +79,26 @@ public class FeedActivity extends AppCompatActivity {
 
                 //ImageView image = new ImageView(this);
                 //image.setImageBitmap(post.toBitmap(post.getImagen()));
-               // sort.addView(image,1);
+                // sort.addView(image,1);
                 Drawable l = new BitmapDrawable(getResources(), post.toBitmap(post.getImagen()));
                 Button thisPost = new Button(this);
                 thisPost.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 thisPost.setBackground(l);
+                final int finalI = i;
+                thisPost.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        // Intent code for open new activity through intent.
+
+                        Intent intent = new Intent(getApplicationContext(), ThisPostActivity.class);
+                        intent.putExtra("index", finalI);
+                        startActivity(intent);
+
+                    }
+                });
+
                 sort.addView(thisPost,1);
 
                 TextView comment = new TextView(this);
@@ -93,9 +107,7 @@ public class FeedActivity extends AppCompatActivity {
 
 
                 posts.addView(sort,0);
-                m++;
-
-
+                i++;
             }
         }else{
             Toast.makeText(this,"No hay contenido que mostrar",Toast.LENGTH_LONG);
@@ -103,18 +115,18 @@ public class FeedActivity extends AppCompatActivity {
 
     }
     public void openCam(View view) {
-
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        outputFileUri = getOutputUri();
-        if (outputFileUri != null) {
-            camera.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            startActivityForResult(camera, SDCARD_REQUEST_CODE);
-        } else{
-            startActivityForResult(camera, CAMERA_REQUEST_CODE);
+        try{
+            Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            outputFileUri = getOutputUri();
+            if (outputFileUri != null) {
+                camera.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                startActivityForResult(camera, SDCARD_REQUEST_CODE);
+            } else{
+                startActivityForResult(camera, CAMERA_REQUEST_CODE);
+            }
+        }catch(Exception e){
+            Toast.makeText(this,"Active access to camera please",Toast.LENGTH_LONG);
         }
-    }
-    public void goToPost(View view){
-        Toast.makeText(this,"No hay contenido que mostrar",Toast.LENGTH_LONG);
 
     }
     @Nullable
